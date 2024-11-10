@@ -11,7 +11,7 @@ export const getNotes = async (page, size, search) => {
         search: search,
       },
     });
-    return response.data.data.content;
+    return response.data;
   } catch (error) {
     throw new Error('Fehler beim Abrufen der Notizen');
   }
