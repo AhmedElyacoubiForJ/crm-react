@@ -1,38 +1,54 @@
-.App {
-  text-align: center;
+/* Setzt den Hintergrund des gesamten Body-Bereichs auf ein helles Grau */
+body {
+  background-color: #f8f9fa;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Stile für den Hauptcontainer */
+.container {
+  background-color: #f8f9fa; /* Hellgrauer Hintergrund */
+  padding: 20px; /* Innenabstand */
+  border-radius: 8px; /* Abgerundete Ecken */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefenwirkung */
+  overflow-x: auto; /* Horizontales Scrollen bei Bedarf */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Stile für responsiven Tabellencontainer */
+.table-responsive {
+  width: 100%; /* Breite auf 100% setzen */
+  margin-bottom: 15px; /* Abstand unten */
+  overflow-y: hidden; /* Verhindert vertikales Scrollen */
+  -webkit-overflow-scrolling: touch; /* Ermöglicht einfaches Scrollen auf Touch-Geräten */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Stile für die Branding-Elemente der Navbar */
+.navbar-brand {
+  font-weight: bold; /* Fettschrift */
 }
 
-.App-link {
-  color: #61dafb;
+/* Setzt den Hintergrund für ungerade Zeilen in gestreiften Tabellen */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0,0,0,.05); /* Leichtes Grau für bessere Lesbarkeit */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Stile für Primär-Schaltflächen */
+.btn-primary {
+  background-color: #007bff; /* Primärfarbe */
+  border-color: #007bff; /* Randfarbe */
+}
+
+/* Stile für Gefahren-Schaltflächen */
+.btn-danger {
+  background-color: #dc3545; /* Gefahrenfarbe */
+  border-color: #dc3545; /* Randfarbe */
+}
+
+/* Stile für Links in der Paginierung */
+.pagination .page-link {
+  color: #007bff; /* Primärfarbe für Links */
+}
+
+/* Stile für aktive Seiten in der Paginierung */
+.pagination .page-item.active .page-link {
+  background-color: #007bff; /* Hintergrundfarbe der aktiven Seite */
+  border-color: #007bff; /* Randfarbe der aktiven Seite */
 }
