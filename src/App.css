@@ -12,14 +12,6 @@ body {
   overflow-x: auto; /* Horizontales Scrollen bei Bedarf */
 }
 
-/* Stile für responsiven Tabellencontainer */
-.table-responsive {
-  width: 100%; /* Breite auf 100% setzen */
-  margin-bottom: 15px; /* Abstand unten */
-  overflow-y: hidden; /* Verhindert vertikales Scrollen */
-  -webkit-overflow-scrolling: touch; /* Ermöglicht einfaches Scrollen auf Touch-Geräten */
-}
-
 /* Stile für die Branding-Elemente der Navbar */
 .navbar-brand {
   font-weight: bold; /* Fettschrift */
@@ -27,7 +19,12 @@ body {
 
 /* Setzt den Hintergrund für ungerade Zeilen in gestreiften Tabellen */
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(0,0,0,.05); /* Leichtes Grau für bessere Lesbarkeit */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.05
+  ); /* Leichtes Grau für bessere Lesbarkeit */
 }
 
 /* Stile für Primär-Schaltflächen */
@@ -42,13 +39,68 @@ body {
   border-color: #dc3545; /* Randfarbe */
 }
 
-/* Stile für Links in der Paginierung */
-.pagination .page-link {
-  color: #007bff; /* Primärfarbe für Links */
+.icon {
+  margin-right: 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* Stile für aktive Seiten in der Paginierung */
-.pagination .page-item.active .page-link {
-  background-color: #007bff; /* Hintergrundfarbe der aktiven Seite */
-  border-color: #007bff; /* Randfarbe der aktiven Seite */
+.icon-trash {
+  color: red;
+  /* Setzen Sie die Farbe für das Löschen-Icon auf rot */
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-input, .size-select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 21%;
+}
+
+.search-input:focus, .size-select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination-button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 16px;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.pagination-button:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.pagination-info {
+  margin: 0 10px;
+  font-size: 16px;
 }
