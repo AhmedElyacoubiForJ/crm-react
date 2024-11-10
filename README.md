@@ -7,14 +7,14 @@ wurde. Es ermöglicht Benutzern die Verwaltung von Kunden, Mitarbeitern und Noti
 
 ## Inhaltsverzeichnis
 
-- [Überblick](#überblick)
-- [Inhaltsverzeichnis](#inhaltsverzeichnis)
-- [Installation](#installation)
-- [Verwendung](#verwendung)
-- [API-Endpunkte](#api-endpunkte)
-- [Verzeichnisstruktur](#verzeichnisstruktur)
-- [Beiträge](#beiträge)
-- [Lizenz](#lizenz)
+- [CRM Frontend](#crm-frontend)
+  - [Überblick](#überblick)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Installation](#installation)
+  - [Verwendung](#verwendung)
+  - [API-Endpunkte](#api-endpunkte)
+  - [Verzeichnisstruktur](#verzeichnisstruktur)
+  - [Backend-Repository](#backend-repository)
 
 ## Installation
 
@@ -60,18 +60,24 @@ const fetchData = async () => {
 ## Verzeichnisstruktur
 
 ```plaintext
-src/
-|-- api/
-|   |-- customers.js
-|   |-- employees.js
-|   |-- notes.js
-|-- components/
-|   |-- KundenListe.js
-|   |-- shared/
-|       |-- Spinner.js
-|-- App.js
-|-- index.js
-|-- ...
+.
+└── src/
+    ├── api/
+    │   ├── customers.js
+    │   ├── employees.js
+    │   └── notes.js
+    ├── components/
+    │   ├── assets/
+    │   │   └── spinner.gif
+    │   ├── common/
+    │   │   └── NavBar.jsx
+    │   ├── shared/
+    │   │   └── Spinner.jsx
+    │   └── CustomerList.jsx
+    ├── App.js
+    ├── App.css
+    ├── Home.jsx
+    └── index.js
 ```
 
 ## Backend-Repository
