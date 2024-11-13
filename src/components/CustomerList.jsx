@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import Spinner from "./shared/Spinner";
+import SearchComponent from "./SearchComponent";
 import { getCustomers } from "../api/customers";
 
 const CustomerList = () => {
@@ -45,25 +46,15 @@ const CustomerList = () => {
     <div>
       <h2 className="mb-4">Kundenliste</h2>
 
-      <div className="filter-container">
-        <input
-          className="search-input"
-          type="text"
-          value={search}
-          onChange={handleSearchChange}
-          placeholder="Suche nach Vorname oder E-Mail..."
-        />
-
-        <select
-          className="size-select"
-          value={size}
-          onChange={handleSizeChange}
-        >
-          <option value={5}>5 pro Seite</option>
-          <option value={10}>10 pro Seite</option>
-          <option value={20}>20 pro Seite</option>
-        </select>
-      </div>
+      <SearchComponent
+        search={search}
+        size={size}
+        handleSearchChange={setSearch}
+        handleSizeChange={(newSize) => {
+          setSize(newSize);
+          setPage(0);
+        }}
+      />
 
       {loading ? (
         <Spinner />
