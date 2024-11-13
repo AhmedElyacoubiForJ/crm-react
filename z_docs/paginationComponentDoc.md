@@ -1,10 +1,66 @@
+# PaginationComponent
+
+## Übersicht
+Die `PaginationComponent` ist eine wiederverwendbare Komponente, die die Paginierungslogik kapselt. Sie bietet Schaltflächen zur Navigation zwischen Seiten sowie Informationen über die aktuelle Seite und die Gesamtzahl der Einträge. Diese Komponente kann in verschiedenen Listenansichten wie `CustomerList` und `EmployeeList` verwendet werden, um eine konsistente Paginierungsfunktionalität bereitzustellen.
+
+## Zweck
+Die Trennung der Paginierungslogik in eine eigene Komponente hat mehrere Vorteile:
+1. **Wiederverwendbarkeit**: Die Komponente kann in mehreren Teilen der Anwendung verwendet werden, ohne den Code zu duplizieren.
+2. **Wartbarkeit**: Änderungen an der Paginierungslogik müssen nur an einer Stelle vorgenommen werden.
+3. **Klarheit und Modularität**: Die Hauptkomponenten (`CustomerList`, `EmployeeList`) bleiben übersichtlich und fokussiert auf ihre Kernlogik.
+
+## Verwendung
+
+### Props
+- **`page`**: Die aktuelle Seite (Number).
+- **`totalPages`**: Die gesamte Anzahl der Seiten (Number).
+- **`totalElements`**: Die gesamte Anzahl der Einträge (Number).
+- **`onPageChange`**: Funktion, die bei Änderungen der Seite aufgerufen wird.
+
+### Beispielcode
+
+```jsx
+import React from 'react';
+
+const PaginationComponent = ({ page, totalPages, totalElements, onPageChange }) => {
+  return (
+    <div className="pagination">
+      <button
+        className="pagination-button"
+        disabled={page === 0}
+        onClick={() => onPageChange(page - 1)}
+      >
+        Vorherige Seite
+      </button>
+      <span className="pagination-info">
+        Seite {page + 1} von {totalPages}
+      </span>
+      <button
+        className="pagination-button"
+        disabled={page >= totalPages - 1}
+        onClick={() => onPageChange(page + 1)}
+      >
+        Nächste Seite
+      </button>
+      <span className="pagination-info">
+        Insgesamt {totalElements} Einträge
+      </span>
+    </div>
+  );
+};
+
+export default PaginationComponent;
+```
+
+### Integration in eine Hauptkomponente
+
+#### Beispiel: `CustomerList.jsx`
+```jsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import Spinner from "./shared/Spinner";
-import SearchComponent from "./SearchComponent";
 import { getCustomers } from "../api/customers";
-import PaginationComponent from "./PaginationComponent";
+import SearchComponent from "./SearchComponent";
+import PaginationComponent from "./PaginationComponent"; // Import der Paginierungskomponente
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -33,15 +89,6 @@ const CustomerList = () => {
 
     fetchData();
   }, [page, size, search]);
-
-  const handleSearchChange = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const handleSizeChange = (e) => {
-    setSize(parseInt(e.target.value, 10));
-    setPage(0); // Reset to first page when size changes
-  };
 
   return (
     <div>
@@ -114,3 +161,7 @@ const CustomerList = () => {
 };
 
 export default CustomerList;
+```
+
+## Fazit
+Die Implementierung einer wiederverwendbaren Paginierungskomponente verbessert die Modularität und Wartbarkeit deiner Anwendung. Sie ermöglicht es dir, die Paginierungslogik konsistent und effizient zu verwalten.
