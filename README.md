@@ -60,24 +60,30 @@ const fetchData = async () => {
 ## Verzeichnisstruktur
 
 ```plaintext
-.
-└── src/
-    ├── api/
-    │   ├── customers.js
-    │   ├── employees.js
-    │   └── notes.js
-    ├── components/
-    │   ├── assets/
-    │   │   └── spinner.gif
-    │   ├── common/
-    │   │   └── NavBar.jsx
-    │   ├── shared/
-    │   │   └── Spinner.jsx
-    │   └── CustomerList.jsx
-    ├── App.js
-    ├── App.css
-    ├── Home.jsx
-    └── index.js
+src/
+├── api/                             // API-Aufrufe
+│   ├── customers.js
+│   ├── employees.js
+│   └── notes.js
+├── components/
+│   ├── assets/                      // Statische Dateien (Bilder, Icons, etc.)
+│   │   └── spinner.gif
+│   ├── common/                      // Wiederverwendbare Komponenten
+│   │   ├── NavBar.jsx
+│   │   ├── PaginationComponent.jsx
+│   │   ├── SearchComponent.jsx
+│   │   └── Spinner.jsx
+│   └── pages/                       // Seitenkomponenten
+│       ├── CustomerList.jsx
+│       ├── EmployeeList.jsx
+│       ├── ShowEmployee.jsx
+│       ├── EditEmployee.jsx
+│       └── DeleteEmployee.jsx
+├── App.js                           // Haupt-App-Komponente
+├── App.css                          // Haupt-CSS-Datei
+├── Home.jsx                         // Startseite
+└── index.js                         // Einstiegspunkt
+
 ```
 
 ## Backend-Repository
