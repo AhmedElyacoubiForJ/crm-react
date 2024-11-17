@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getEmployee } from "../../api/employees";
 import Spinner from "../common/Spinner";
-import { Card } from "react-bootstrap";
+import { Card, Button, ButtonGroup } from "react-bootstrap";
 
 const ShowEmployee = () => {
   const { id } = useParams();
@@ -41,6 +41,18 @@ const ShowEmployee = () => {
             <p>Nachname: {employee.lastName}</p>
             <p>E-Mail: {employee.email}</p>
             <p>Abteilung: {employee.department}</p>
+            <ButtonGroup className="flex-container">
+              <Link to="/view-employees">
+                <Button className="uniform-button" variant="secondary">
+                  Zurück zur Liste
+                </Button>
+              </Link>
+              <Link to={`/edit-employee/${employee.id}`}>
+                <Button className="uniform-button" variant="primary">
+                  Bearbeiten
+                </Button>
+              </Link>
+            </ButtonGroup>
           </Card.Body>
         </Card>
       )}

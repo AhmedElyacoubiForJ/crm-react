@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { deleteEmployee } from "../../api/employees";
 import { Card, Button } from "react-bootstrap";
 
@@ -27,9 +27,9 @@ const DeleteEmployee = () => {
           <Button variant="danger" onClick={handleDelete} className="me-2">
             Löschen
           </Button>
-          <Button variant="secondary" onClick={() => navigate(`/view-employee/${id}`)}>
-            Abbrechen
-          </Button>
+          <Link to="/view-employees">
+            <Button variant="secondary">Abbrechen</Button>
+          </Link>
         </Card.Body>
       </Card>
     </div>

@@ -56,7 +56,8 @@ body {
   margin-bottom: 20px;
 }
 
-.search-input, .size-select {
+.search-input,
+.size-select {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -64,7 +65,8 @@ body {
   width: 21%;
 }
 
-.search-input:focus, .size-select:focus {
+.search-input:focus,
+.size-select:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
@@ -103,4 +105,13 @@ body {
 .pagination-info {
   margin: 0 10px;
   font-size: 16px;
+}
+
+.flex-container {
+  display: flex;
+  gap: 10px; /* Abstandsgröße anpassen */
+}
+
+.uniform-button {
+  width: 250px; /* Passe die Breite nach deinen Wünschen an */
 }

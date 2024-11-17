@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getEmployee, updateEmployee } from "../../api/employees";
 import Spinner from "../common/Spinner";
-import { Card, Form, Button } from "react-bootstrap";
+import { Card, Form, Button, ButtonGroup } from "react-bootstrap";
 
 const EditEmployee = () => {
   const { id } = useParams();
@@ -97,9 +97,20 @@ const EditEmployee = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Button variant="primary" type="submit" className="mt-3">
-              Speichern
-            </Button>
+            <div className="flex-container">
+              <Button
+                variant="primary"
+                type="submit"
+                className="mt-3 uniform-button"
+              >
+                Speichern
+              </Button>
+              <Link to="/view-employees" className="mt-3 ms-3">
+                <Button className="uniform-button" variant="secondary">
+                  Zurück zur Liste
+                </Button>
+              </Link>
+            </div>
           </Form>
         </Card.Body>
       </Card>
