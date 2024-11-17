@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import Spinner from "./shared/Spinner";
-import SearchComponent from "./SearchComponent";
-import { getCustomers } from "../api/customers";
-import PaginationComponent from "./PaginationComponent";
+import Spinner from "../common/Spinner";
+import SearchComponent from "../common/SearchComponent";
+import { getCustomers } from "../../api/customers";
+import PaginationComponent from "../common/PaginationComponent";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);

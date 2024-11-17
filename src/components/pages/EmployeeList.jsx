@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import Spinner from "./shared/Spinner";
-import { getEmployees } from "../api/employees";
-import SearchComponent from "./SearchComponent";
-import PaginationComponent from "./PaginationComponent";
+import Spinner from "../common/Spinner";
+import { getEmployees } from "../../api/employees";
+import SearchComponent from "../common/SearchComponent";
+import PaginationComponent from "../common/PaginationComponent";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
