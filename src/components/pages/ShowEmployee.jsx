@@ -41,7 +41,7 @@ const ShowEmployee = () => {
             <p>Nachname: {employee.lastName}</p>
             <p>E-Mail: {employee.email}</p>
             <p>Abteilung: {employee.department}</p>
-            <ButtonGroup className="flex-container">
+            <div className="flex-container">
               <Link to="/view-employees">
                 <Button className="uniform-button" variant="secondary">
                   Zurück zur Liste
@@ -52,7 +52,7 @@ const ShowEmployee = () => {
                   Bearbeiten
                 </Button>
               </Link>
-            </ButtonGroup>
+            </div>
           </Card.Body>
         </Card>
       )}
