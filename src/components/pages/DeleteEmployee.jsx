@@ -8,6 +8,7 @@ const DeleteEmployee = () => {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
+    console.log("Delete employee")
     try {
       await deleteEmployee(id);
       navigate("/view-employees");
