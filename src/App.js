@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/common/NavBar";
+import Footer from "./components/common/Footer";
 import CustomerList from "./components/pages/CustomerList";
 import Home from "./Home";
 import EmployeeList from "./components/pages/EmployeeList";
@@ -21,6 +22,7 @@ function App() {
           <Route path="/edit-employee/:id" element={<EditEmployee />} />
           <Route path="/delete-employee/:id" element={<DeleteEmployee />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   );
