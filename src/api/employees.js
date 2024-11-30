@@ -26,11 +26,15 @@ export const getEmployee = async (id) => {
   }
 };
 
-export const deleteEmployee = async (id) => {
+export const reassignAndDeleteEmployee = async (employeeId, newEmployeeId) => {
   try {
-    await axios.delete(`${BASE_URL}/${id}`);
+    await axios.delete(`${BASE_URL}/${employeeId}/reassignAndDelete`, {
+      params: {
+        newEmployeeId: newEmployeeId
+      }
+    });
   } catch (error) {
-    throw new Error("Fehler beim Löschen der Mitarbeiterdaten");
+    throw new Error("Fehler beim Löschen und Neuzuweisen der Mitarbeiterdaten");
   }
 };
 
@@ -41,7 +45,7 @@ export const createEmployee = async (employee) => {
   } catch (error) {
     throw new Error("Fehler beim Erstellen einer Mitarbeiterdaten");
   }
-}
+};
 
 export const updateEmployee = async (id, employee) => {
   try {
@@ -50,4 +54,4 @@ export const updateEmployee = async (id, employee) => {
   } catch (error) {
     throw new Error("Fehler beim Aktualisieren der Mitarbeiterdaten");
   }
-}
+};

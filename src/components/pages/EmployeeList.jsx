@@ -82,7 +82,7 @@ const EmployeeList = () => {
                   <Link to={`/view-employee/${employee.id}`} title="Anzeigen">
                     <FaEye className="icon" />
                   </Link>
-                  <Link to={`/delete-employee/${employee.id}`} title="Löschen">
+                  <Link to={`/reassign-and-delete/${employee.id}`} title="Löschen">
                     <FaTrash className="icon icon-trash" />
                   </Link>
                 </td>
