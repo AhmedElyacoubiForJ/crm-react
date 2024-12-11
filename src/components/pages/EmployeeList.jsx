@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { Table, Button } from "react-bootstrap";
 import Spinner from "../common/Spinner";
 import { getEmployees } from "../../api/employees";
 import SearchComponent from "../common/SearchComponent";
@@ -36,7 +37,14 @@ const EmployeeList = () => {
 
   return (
     <div>
-      <h2 className="mb-4">Mitarbeiterliste</h2>
+      <div className="d-flex align-items-center justify-content-between">
+        <h2 className="mb-4 p-2">Mitarbeiterliste</h2>
+        <Link to="/add-employee" className="p-2">
+          <Button variant="primary" style={{ marginBottom: "20px" }}>
+            Add neue Mitarbeiter
+          </Button>
+        </Link>
+      </div>
 
       <SearchComponent
         search={search}
@@ -82,7 +90,10 @@ const EmployeeList = () => {
                   <Link to={`/view-employee/${employee.id}`} title="Anzeigen">
                     <FaEye className="icon" />
                   </Link>
-                  <Link to={`/reassign-and-delete/${employee.id}`} title="Löschen">
+                  <Link
+                    to={`/reassign-and-delete/${employee.id}`}
+                    title="Löschen"
+                  >
                     <FaTrash className="icon icon-trash" />
                   </Link>
                 </td>

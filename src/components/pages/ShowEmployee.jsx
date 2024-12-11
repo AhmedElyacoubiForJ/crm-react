@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getEmployee } from "../../api/employees";
 import Spinner from "../common/Spinner";
-import { Card, Button, ButtonGroup } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 
 const ShowEmployee = () => {
   const { id } = useParams();

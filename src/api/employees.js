@@ -38,7 +38,7 @@ export const reassignAndDeleteEmployee = async (employeeId, newEmployeeId) => {
   }
 };
 
-export const createEmployee = async (employee) => {
+export const addEmployee = async (employee) => {
   try {
     const response = await axios.post(BASE_URL, employee);
     return response.data;

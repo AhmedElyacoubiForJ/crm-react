@@ -7,6 +7,7 @@ import Home from "./Home";
 import EmployeeList from "./components/pages/EmployeeList";
 import ShowEmployee from "./components/pages/ShowEmployee";
 import EditEmployee from "./components/pages/EditEmployee";
+import AddEmployee from "./components/pages/AddEmployee";
 import ReassignAndDeleteEmployee from "./components/pages/ReassignAndDeleteEmployee";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/view-employees" element={<EmployeeList />} />
           <Route path="/view-employee/:id" element={<ShowEmployee />} />
           <Route path="/edit-employee/:id" element={<EditEmployee />} />
+          <Route path="/add-employee" element={<AddEmployee />} />
           <Route path="/reassign-and-delete/:employeeId" element={<ReassignAndDeleteEmployee />} />
         </Routes>
         <Footer />

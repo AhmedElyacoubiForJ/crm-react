@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getEmployee, updateEmployee } from "../../api/employees";
 import Spinner from "../common/Spinner";
-import { Card, Form, Button, ButtonGroup } from "react-bootstrap";
+import { Card, Form, Button } from "react-bootstrap";
 
 const EditEmployee = () => {
   const { id } = useParams();
