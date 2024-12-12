@@ -20,8 +20,8 @@ const EditEmployee = () => {
     const fetchEmployee = async () => {
       setLoading(true);
       try {
-        const response = await getEmployee(id);
-        setEmployee(response.data);
+        const data = await getEmployee(id);
+        setEmployee(data);
         setLoading(false);
       } catch (error) {
         setError("Fehler beim Abrufen der Mitarbeiterdaten");

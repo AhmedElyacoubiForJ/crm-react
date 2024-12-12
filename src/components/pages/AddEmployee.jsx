@@ -13,6 +13,8 @@ const AddEmployee = () => {
   });
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
   const [customDepartment, setCustomDepartment] = useState(false);
 
   // Fetch departments when component mounts
@@ -25,6 +27,7 @@ const AddEmployee = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching departments:", error);
+        setError(error.message);
         setLoading(false);
       }
     };
@@ -49,17 +52,32 @@ const AddEmployee = () => {
   };
 
   // Handle form submission event
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    addEmployee(employee)
-      .then(() => navigate("/view-employees"))
-      .catch((error) => console.error("Error adding employee:", error));
-    setEmployee({
-      firstName: "",
-      lastName: "",
-      email: "",
-      department: "",
-    });
+    setValidationErrors({}); // Reset validation errors
+
+    try {
+      await addEmployee(employee);
+      setEmployee({
+        firstName: "",
+        lastName: "",
+        email: "",
+        department: "",
+      });
+      navigate("/view-employees");
+    } catch (error) {
+      if (error.response && error.response.data.errors) {
+        // Backend-Validierungsfehler verarbeiten
+        console.log("Validation errors:", error.response.data.errors); // Debug-Ausgabe hinzufügen
+        const errors = error.response.data.errors.reduce((acc, err) => {
+          acc[err.field] = err.errorMessage;
+          return acc;
+        }, {});
+        setValidationErrors(errors);
+      } else {
+        console.error("Error adding employee:", error);
+      }
+    }
   };
 
   return (
@@ -78,8 +96,11 @@ const AddEmployee = () => {
                 name="firstName"
                 value={employee.firstName}
                 onChange={handleInputChange}
-                required
+                isInvalid={!!validationErrors.firstName}
               />
+              <Form.Control.Feedback type="invalid">
+                {validationErrors.firstName}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="lastName" className="mt-3">
               <Form.Label>Nachname</Form.Label>
@@ -89,8 +110,11 @@ const AddEmployee = () => {
                 name="lastName"
                 value={employee.lastName}
                 onChange={handleInputChange}
-                required
+                isInvalid={!!validationErrors.lastName}
               />
+              <Form.Control.Feedback type="invalid">
+                {validationErrors.lastName}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="email" className="mt-3">
               <Form.Label>E-Mail</Form.Label>
@@ -100,13 +124,19 @@ const AddEmployee = () => {
                 name="email"
                 value={employee.email}
                 onChange={handleInputChange}
+                isInvalid={!!validationErrors.email}
                 required
               />
+              <Form.Control.Feedback type="invalid">
+                {validationErrors.email}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="department" className="mt-3">
               <Form.Label>Abteilung</Form.Label>
               {loading ? (
                 <p>Lade Abteilungen...</p>
+              ) : error ? (
+                <p className="text-danger">{error}</p>
               ) : (
                 <>
                   <Form.Control
