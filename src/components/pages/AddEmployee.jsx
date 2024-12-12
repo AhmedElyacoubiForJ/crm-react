@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Card, Form, Button } from "react-bootstrap";
-import { addEmployee } from "../../api/employees";
+import { addEmployee, getDepartments } from "../../api/employees";
 
 const AddEmployee = () => {
   const navigate = useNavigate();
@@ -11,10 +11,43 @@ const AddEmployee = () => {
     email: "",
     department: "",
   });
+  const [departments, setDepartments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [customDepartment, setCustomDepartment] = useState(false);
+
+  // Fetch departments when component mounts
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const departmentsData = await getDepartments();
+        setDepartments(departmentsData);
+        console.log(departmentsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
+
   // Handle input change event and update employee state
   const handleInputChange = (event) => {
-    setEmployee({ ...employee, [event.target.name]: event.target.value });
+    const { name, value } = event.target;
+    setEmployee({ ...employee, [name]: value });
+
+    if (name === "department" && value === "custom") {
+      setCustomDepartment(true);
+    } else if (name === "department") {
+      setCustomDepartment(false);
+    }
   };
+
+  const handleCustomDepartmentChange = (event) => {
+    setEmployee({ ...employee, department: event.target.value });
+  };
+
   // Handle form submission event
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,6 +61,7 @@ const AddEmployee = () => {
       department: "",
     });
   };
+
   return (
     <div className="container mt-4">
       <Card>
@@ -71,15 +105,40 @@ const AddEmployee = () => {
             </Form.Group>
             <Form.Group controlId="department" className="mt-3">
               <Form.Label>Abteilung</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Abteilung"
-                name="department"
-                value={employee.department}
-                onChange={handleInputChange}
-                required
-              />
+              {loading ? (
+                <p>Lade Abteilungen...</p>
+              ) : (
+                <>
+                  <Form.Control
+                    as="select"
+                    name="department"
+                    value={customDepartment ? "custom" : employee.department}
+                    onChange={handleInputChange}
+                    required={!customDepartment}
+                  >
+                    <option value="">Wählen Sie eine Abteilung</option>
+                    {departments.map((dept, index) => (
+                      <option key={index} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
+                    <option value="custom">Andere Abteilung...</option>
+                  </Form.Control>
+                  {customDepartment && (
+                    <Form.Control
+                      type="text"
+                      placeholder="Geben Sie eine neue Abteilung ein"
+                      name="customDepartment"
+                      value={employee.department}
+                      onChange={handleCustomDepartmentChange}
+                      required
+                      className="mt-2"
+                    />
+                  )}
+                </>
+              )}
             </Form.Group>
+
             <div className="flex-container">
               <Button
                 variant="primary"

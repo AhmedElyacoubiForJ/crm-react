@@ -50,8 +50,17 @@ export const addEmployee = async (employee) => {
 export const updateEmployee = async (id, employee) => {
   try {
     const response = await axios.put(`${BASE_URL}/${id}`, employee);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     throw new Error("Fehler beim Aktualisieren der Mitarbeiterdaten");
+  }
+};
+
+export const getDepartments = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/departments`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error("Fehler beim Abrufen der Abteilungen");
   }
 };
