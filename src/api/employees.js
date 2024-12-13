@@ -29,13 +29,18 @@ export const getEmployee = async (id) => {
 
 export const reassignAndDeleteEmployee = async (employeeId, newEmployeeId) => {
   try {
-    await axios.delete(`${BASE_URL}/${employeeId}/reassignAndDelete`, {
-      params: {
-        newEmployeeId: newEmployeeId,
-      },
+    const response = await axios.delete(
+      `${BASE_URL}/${employeeId}/reassignAndDelete`, {
+        params: { newEmployeeId },
     });
+
+    if (response.data.statusCode === 200) {
+      return response.data.message;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
   } catch (error) {
-    throw new Error("Fehler beim Löschen und Neuzuweisen der Mitarbeiterdaten");
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
 
@@ -48,24 +53,32 @@ export const addEmployee = async (employee) => {
       throw response; // Den ursprünglichen Fehler weitergeben
     }
   } catch (error) {
-    handleApiError(error);
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
 
 export const updateEmployee = async (id, employee) => {
   try {
     const response = await axios.put(`${BASE_URL}/${id}`, employee);
-    return response.data.data;
+    if (response.data.statusCode === 200) {
+      return response.data.data;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
   } catch (error) {
-    throw new Error("Fehler beim Aktualisieren der Mitarbeiterdaten");
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
 
 export const getDepartments = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/departments`);
-    return response.data.data;
+    if (response.data.statusCode === 200) {
+      return response.data.data;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
   } catch (error) {
-    throw new Error("Fehler beim Abrufen der Abteilungen");
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
