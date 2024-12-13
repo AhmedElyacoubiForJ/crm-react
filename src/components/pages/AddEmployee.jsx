@@ -17,7 +17,6 @@ const AddEmployee = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const [customDepartment, setCustomDepartment] = useState(false);
 
-  // Fetch departments when component mounts
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
@@ -34,7 +33,6 @@ const AddEmployee = () => {
     fetchDepartments();
   }, []);
 
-  // Handle input change event and update employee state
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setEmployee({ ...employee, [name]: value });
@@ -50,7 +48,6 @@ const AddEmployee = () => {
     setEmployee({ ...employee, department: event.target.value });
   };
 
-  // Handle form submission event
   const handleSubmit = async (event) => {
     event.preventDefault();
     setValidationErrors({}); // Reset validation errors
@@ -124,7 +121,6 @@ const AddEmployee = () => {
                 value={employee.email}
                 onChange={handleInputChange}
                 isInvalid={!!validationErrors.email}
-                required
               />
               <Form.Control.Feedback type="invalid">
                 {validationErrors.email}
@@ -143,7 +139,7 @@ const AddEmployee = () => {
                     name="department"
                     value={customDepartment ? "custom" : employee.department}
                     onChange={handleInputChange}
-                    required={!customDepartment}
+                    isInvalid={!!validationErrors.department}
                   >
                     <option value="">Wählen Sie eine Abteilung</option>
                     {departments.map((dept, index) => (
@@ -160,12 +156,16 @@ const AddEmployee = () => {
                       name="customDepartment"
                       value={employee.department}
                       onChange={handleCustomDepartmentChange}
-                      required
+                      isInvalid={!!validationErrors.customDepartment}
                       className="mt-2"
                     />
                   )}
                 </>
               )}
+              <Form.Control.Feedback type="invalid">
+                {validationErrors.department ||
+                  validationErrors.customDepartment}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <div className="flex-container">
