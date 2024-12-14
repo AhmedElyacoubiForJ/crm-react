@@ -12,25 +12,34 @@ export const getEmployees = async (page, size, search) => {
         search: search,
       },
     });
-    return response.data;
+
+    if (response.data.statusCode === 200) {
+      return response.data;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
   } catch (error) {
-    throw new Error("Fehler beim Abrufen der Mitarbeiterdaten");
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
 
 export const getEmployee = async (id) => {
   try {
     const response = await axios.get(`${BASE_URL}/${id}`);
-    return response.data.data;
+    
+    if (response.data.statusCode === 200) {
+      return response.data.data;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
   } catch (error) {
-    throw new Error("Fehler beim Laden der Mitarbeiterdaten");
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
 
 export const reassignAndDeleteEmployee = async (employeeId, newEmployeeId) => {
   try {
-    const response = await axios.delete(
-      `${BASE_URL}/${employeeId}/reassignAndDelete`, {
+    const response = await axios.delete(`${BASE_URL}/${employeeId}/reassignAndDelete`, {
         params: { newEmployeeId },
     });
 

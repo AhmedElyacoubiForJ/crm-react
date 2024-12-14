@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { handleApiError } from './utils/errorHandler';
 
 const BASE_URL = 'http://localhost:8080/api/notes';
 
@@ -11,8 +12,12 @@ export const getNotes = async (page, size, search) => {
         search: search,
       },
     });
-    return response.data;
+    if (response.data.statusCode === 200) {
+      return response.data;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
   } catch (error) {
-    throw new Error('Fehler beim Abrufen der Notizen');
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
