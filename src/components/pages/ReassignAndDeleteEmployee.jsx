@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Form, Button, Table } from "react-bootstrap";
+import { Form, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Spinner from "../common/Spinner";
 import {
   getEmployee,
@@ -17,6 +17,29 @@ const ReassignAndDeleteEmployee = () => {
   const [loadingEmployees, setLoadingEmployees] = useState(true);
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [newEmployeeId, setNewEmployeeId] = useState(null);
+
+  const departmentTooltip = (
+    <Tooltip id="department-tooltip">
+      Wähle eine Abteilung, um die Mitarbeiter zu filtern.
+    </Tooltip>
+  );
+
+  const employeeSelectTooltip = (
+    <Tooltip id="employee-select-tooltip">
+      Wähle einen Mitarbeiter, um Kunden neu zuzuweisen.
+    </Tooltip>
+  );
+
+  const reassignDeleteTooltip = (
+    <Tooltip id="reassign-delete-tooltip">
+      Weise Kunden einem neuen Mitarbeiter zu und lösche den aktuellen
+      Mitarbeiter.
+    </Tooltip>
+  );
+
+  const backToListTooltip = (
+    <Tooltip id="back-to-list-tooltip">Zurück zur Mitarbeiterliste.</Tooltip>
+  );
 
   useEffect(() => {
     setLoadingEmployee(true);
@@ -78,23 +101,26 @@ const ReassignAndDeleteEmployee = () => {
                 {employee.firstName} {employee.lastName}
               </strong>
             </p>
-            <Form.Group controlId="departmentSelect">
-              <Form.Label>Filter by Department</Form.Label>
-              <Form.Control
-                as="select"
-                value={selectedDepartment}
-                onChange={(e) => setSelectedDepartment(e.target.value)}
-              >
-                <option value="">Select Department</option>
-                {Array.from(
-                  new Set(employees.map((emp) => emp.department))
-                ).map((department) => (
-                  <option key={department} value={department}>
-                    {department}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+
+            <OverlayTrigger overlay={departmentTooltip} placement="left">
+              <Form.Group controlId="departmentSelect">
+                <Form.Label>Filter by Department</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={selectedDepartment}
+                  onChange={(e) => setSelectedDepartment(e.target.value)}
+                >
+                  <option value="">Select Department</option>
+                  {Array.from(
+                    new Set(employees.map((emp) => emp.department))
+                  ).map((department) => (
+                    <option key={department} value={department}>
+                      {department}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            </OverlayTrigger>
             {loadingEmployees ? (
               <Spinner />
             ) : (
@@ -117,12 +143,17 @@ const ReassignAndDeleteEmployee = () => {
                     .map((emp) => (
                       <tr key={emp.id}>
                         <td>
-                          <Form.Check
-                            type="radio"
-                            name="employeeSelect"
-                            value={emp.id}
-                            onChange={() => setNewEmployeeId(emp.id)}
-                          />
+                          <OverlayTrigger
+                            overlay={employeeSelectTooltip}
+                            placement="left"
+                          >
+                            <Form.Check
+                              type="radio"
+                              name="employeeSelect"
+                              value={emp.id}
+                              onChange={() => setNewEmployeeId(emp.id)}
+                            />
+                          </OverlayTrigger>
                         </td>
                         <td>{emp.id}</td>
                         <td>
@@ -135,17 +166,21 @@ const ReassignAndDeleteEmployee = () => {
               </Table>
             )}
 
-            <Button
-              variant="danger"
-              onClick={handleReassignAndDelete}
-              disabled={!newEmployeeId}
-            >
-              Reassign Customers and Delete Employee
-            </Button>
+            <OverlayTrigger overlay={reassignDeleteTooltip} placement="top">
+              <Button
+                variant="danger"
+                onClick={handleReassignAndDelete}
+                disabled={!newEmployeeId}
+              >
+                Reassign Customers and Delete Employee
+              </Button>
+            </OverlayTrigger>
             {/* Space between buttons */}
-            <Button variant="secondary" onClick={handleBackToList}>
-              Back to List
-            </Button>
+            <OverlayTrigger overlay={backToListTooltip} placement="top">
+              <Button variant="secondary" onClick={handleBackToList}>
+                Back to List
+              </Button>
+            </OverlayTrigger>
           </div>
         )
       )}
