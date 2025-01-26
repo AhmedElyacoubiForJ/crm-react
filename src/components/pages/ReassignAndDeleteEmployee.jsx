@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Form, Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Table,
+  OverlayTrigger,
+  Tooltip,
+  Modal,
+} from "react-bootstrap";
 import Spinner from "../common/Spinner";
 import {
   getEmployee,
@@ -17,6 +24,8 @@ const ReassignAndDeleteEmployee = () => {
   const [loadingEmployees, setLoadingEmployees] = useState(true);
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [newEmployeeId, setNewEmployeeId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const departmentTooltip = (
     <Tooltip id="department-tooltip">
@@ -40,6 +49,20 @@ const ReassignAndDeleteEmployee = () => {
   const backToListTooltip = (
     <Tooltip id="back-to-list-tooltip">Zurück zur Mitarbeiterliste.</Tooltip>
   );
+
+  const handleShowModal = (message) => {
+    setModalMessage(message);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirmDelete = () => {
+    handleReassignAndDelete();
+    handleCloseModal();
+  };
 
   useEffect(() => {
     setLoadingEmployee(true);
@@ -169,7 +192,11 @@ const ReassignAndDeleteEmployee = () => {
             <OverlayTrigger overlay={reassignDeleteTooltip} placement="top">
               <Button
                 variant="danger"
-                onClick={handleReassignAndDelete}
+                onClick={() =>
+                  handleShowModal(
+                    "Are you sure you want to reassign customers and delete this employee?"
+                  )
+                }
                 disabled={!newEmployeeId}
               >
                 Reassign Customers and Delete Employee
@@ -181,6 +208,21 @@ const ReassignAndDeleteEmployee = () => {
                 Back to List
               </Button>
             </OverlayTrigger>
+
+            <Modal show={showModal} onHide={handleCloseModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Confirm Action</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>{modalMessage}</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseModal}>
+                  Cancel
+                </Button>
+                <Button variant="danger" onClick={handleConfirmDelete}>
+                  Confirm
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         )
       )}
