@@ -9,6 +9,8 @@ import {
   Modal,
 } from "react-bootstrap";
 import Spinner from "../common/Spinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   getEmployee,
   getEmployees,
@@ -22,6 +24,8 @@ const ReassignAndDeleteEmployee = () => {
   const [employees, setEmployees] = useState([]);
   const [loadingEmployee, setLoadingEmployee] = useState(true);
   const [loadingEmployees, setLoadingEmployees] = useState(true);
+  const [employeeLoadSuccess, setEmployeeLoadSuccess] = useState(false);
+  const [employeesLoadSuccess, setEmployeesLoadSuccess] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [newEmployeeId, setNewEmployeeId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -64,46 +68,74 @@ const ReassignAndDeleteEmployee = () => {
     handleCloseModal();
   };
 
-  useEffect(() => {
-    setLoadingEmployee(true);
-    setLoadingEmployees(true);
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
-    // Fetch employee details
-    getEmployee(employeeId)
-      .then((data) => {
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      setLoadingEmployee(true);
+      try {
+        const data = await getEmployee(employeeId);
         console.log(data);
         setEmployee(data);
-      })
-      .catch((error) => {
+        setEmployeeLoadSuccess(true);
+      } catch (error) {
         console.error("Error fetching employee data:", error);
-      })
-      .finally(() => {
+        notifyError("Failed to load employee data.");
+        setEmployeeLoadSuccess(false);
+      } finally {
         setLoadingEmployee(false);
-      });
+      }
+    };
 
-    // Fetch all employees
-    getEmployees()
-      .then((data) => {
+    const fetchEmployees = async () => {
+      setLoadingEmployees(true);
+      try {
+        const data = await getEmployees();
         if (Array.isArray(data.data.content)) {
           setEmployees(
             data.data.content.filter((emp) => emp.id !== parseInt(employeeId))
           );
+          setEmployeesLoadSuccess(true);
         } else {
           setEmployees([]);
+          setEmployeesLoadSuccess(false);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching employees data:", error);
-      })
-      .finally(() => {
+        notifyError("Failed to load employees data.");
+        setEmployeesLoadSuccess(false);
+      } finally {
         setLoadingEmployees(false);
-      });
+      }
+    };
+
+    fetchEmployee();
+    fetchEmployees();
   }, [employeeId]);
+
+  useEffect(() => {
+    if (!loadingEmployee && employeeLoadSuccess) {
+      notifySuccess("Employee data loaded successfully!");
+    }
+  }, [loadingEmployee, employeeLoadSuccess]);
+
+  useEffect(() => {
+    if (!loadingEmployees && employeesLoadSuccess) {
+      notifySuccess("Employees data loaded successfully!");
+    }
+  }, [loadingEmployees, employeesLoadSuccess]);
 
   const handleReassignAndDelete = () => {
     reassignAndDeleteEmployee(employeeId, newEmployeeId)
-      .then(() => navigate("/view-employees"))
-      .catch((error) => console.error("There was an error!", error));
+      .then(() => {
+        notifySuccess("Employee reassigned and deleted successfully!");
+        navigate("/view-employees");
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+        notifyError("Failed to reassign and delete employee.");
+      });
   };
 
   const handleBackToList = () => {
@@ -112,6 +144,7 @@ const ReassignAndDeleteEmployee = () => {
 
   return (
     <div>
+      <ToastContainer />
       <h1>Reassign and Delete Employee</h1>
       {loadingEmployee ? (
         <Spinner />
