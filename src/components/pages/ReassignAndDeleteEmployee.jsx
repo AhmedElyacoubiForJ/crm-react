@@ -14,7 +14,8 @@ const ReassignAndDeleteEmployee = () => {
   useEffect(() => {
     // Fetch employee details
     getEmployee(employeeId).then((data) => {
-      setEmployee(data.data);
+      console.log(data);
+      setEmployee(data);
     }).catch((error) => {
       console.error("Error fetching employee data:", error);
     });
