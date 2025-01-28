@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import StatusMessage from "../common/StatusMessage";
 import useFetchData from "../common/hooks/useFetchData";
 import { getEmployees } from "../../api/employees";
@@ -76,21 +76,48 @@ const EmployeeList = () => {
                   <td>{employee.email}</td>
                   <td>{employee.department}</td>
                   <td>
-                    <Link
-                      to={`/edit-employee/${employee.id}`}
-                      title="Bearbeiten"
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip id={`edit-tooltip-${employee.id}`}>
+                          Bearbeiten
+                        </Tooltip>
+                      }
                     >
-                      <FaEdit className="icon" />
-                    </Link>
-                    <Link to={`/view-employee/${employee.id}`} title="Anzeigen">
-                      <FaEye className="icon" />
-                    </Link>
-                    <Link
-                      to={`/reassign-and-delete/${employee.id}`}
-                      title="Löschen"
+                      <Link
+                        to={`/edit-employee/${employee.id}`}
+                        title="Bearbeiten"
+                      >
+                        <FaEdit className="icon" />
+                      </Link>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip id={`view-tooltip-${employee.id}`}>
+                          Anzeigen
+                        </Tooltip>
+                      }
                     >
-                      <FaTrash className="icon icon-trash" />
-                    </Link>
+                      <Link
+                        to={`/view-employee/${employee.id}`}
+                        title="Anzeigen"
+                      >
+                        <FaEye className="icon" />
+                      </Link>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip id={`delete-tooltip-${employee.id}`}>
+                          Löschen
+                        </Tooltip>
+                      }
+                    >
+                      <Link
+                        to={`/reassign-and-delete/${employee.id}`}
+                        title="Löschen"
+                      >
+                        <FaTrash className="icon icon-trash" />
+                      </Link>
+                    </OverlayTrigger>
                   </td>
                 </tr>
               ))}
