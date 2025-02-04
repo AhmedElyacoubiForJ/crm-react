@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Card, Form, Button } from "react-bootstrap";
+import useFetchData from "../common/hooks/useFetchData";
 import { addEmployee, getDepartments } from "../../api/employees";
 
 const AddEmployee = () => {
@@ -11,27 +12,9 @@ const AddEmployee = () => {
     email: "",
     department: "",
   });
-  const [departments, setDepartments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: departments, loading, error } = useFetchData(getDepartments);
   const [validationErrors, setValidationErrors] = useState({});
   const [customDepartment, setCustomDepartment] = useState(false);
-
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const departmentsData = await getDepartments();
-        setDepartments(departmentsData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching departments:", error);
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchDepartments();
-  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
