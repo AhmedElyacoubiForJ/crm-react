@@ -28,7 +28,7 @@ export const getEmployee = async (id) => {
     const response = await axios.get(`${BASE_URL}/${id}`);
     
     if (response.data.statusCode === 200) {
-      return response.data.data;
+      return response.data;
     } else {
       throw response; // Den ursprünglichen Fehler weitergeben
     }

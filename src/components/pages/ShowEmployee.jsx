@@ -1,30 +1,12 @@
-import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getEmployee } from "../../api/employees";
 import Spinner from "../common/Spinner";
 import { Card, Button } from "react-bootstrap";
+import useFetchData from "../common/hooks/useFetchData";
 
 const ShowEmployee = () => {
   const { id } = useParams();
-  const [employee, setEmployee] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchEmployee = async () => {
-      setLoading(true);
-      try {
-        const data = await getEmployee(id);
-        setEmployee(data);
-        setLoading(false);
-      } catch (error) {
-        setError("Fehler beim Abrufen der Mitarbeiterdaten");
-        setLoading(false);
-      }
-    };
-
-    fetchEmployee();
-  }, [id]);
+  const { data: employee, loading, error } = useFetchData(() => getEmployee(id), [id]); 
 
   if (loading) return <Spinner />;
   if (error) return <p>{error}</p>;
