@@ -22,3 +22,16 @@ export const getCustomers = async (page, size, search) => {
     handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
+
+export const addCustomer = async (customer) => {
+  try {
+    const response = await axios.post(BASE_URL, customer);
+    if (response.data.statusCode === 201) {
+      return response.data.data;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
+  } catch (error) {
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
+  }
+};
