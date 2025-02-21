@@ -77,7 +77,7 @@ const ReassignAndDeleteEmployee = () => {
       try {
         const data = await getEmployee(employeeId);
         console.log(data);
-        setEmployee(data);
+        setEmployee(data.data);
         setEmployeeLoadSuccess(true);
       } catch (error) {
         console.error("Error fetching employee data:", error);
@@ -152,7 +152,7 @@ const ReassignAndDeleteEmployee = () => {
         employee && (
           <div>
             <p>
-              Reassign customers from
+              Reassign customers from:
               <strong>
                 {employee.firstName} {employee.lastName}
               </strong>

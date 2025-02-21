@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getEmployee, updateEmployee } from "../../api/employees";
 import Spinner from "../common/Spinner";
 import { Card, Form, Button } from "react-bootstrap";
+import useFetchData from "../common/hooks/useFetchData";
 
 const EditEmployee = () => {
   const { id } = useParams();
@@ -13,24 +14,14 @@ const EditEmployee = () => {
     email: "",
     department: "",
   });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
+  const [error, setError] = useState(null); // Fehlerzustand hinzufügen
+  const { data, loading, error: fetchError } = useFetchData(() => getEmployee(id), [id]);
+  
   useEffect(() => {
-    const fetchEmployee = async () => {
-      setLoading(true);
-      try {
-        const data = await getEmployee(id);
-        setEmployee(data);
-        setLoading(false);
-      } catch (error) {
-        setError("Fehler beim Abrufen der Mitarbeiterdaten");
-        setLoading(false);
-      }
-    };
-
-    fetchEmployee();
-  }, [id]);
+    if (data) {
+      setEmployee(data);
+    }
+  }, [data]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,8 +42,13 @@ const EditEmployee = () => {
   };
 
   if (loading) return <Spinner />;
-  if (error) return <p>{error}</p>;
-
+  if (fetchError || error) return <p>{fetchError || error}</p>;
+  
+  if (!loading) {
+    console.log("Employee");
+    console.log(employee);
+  }
+  
   return (
     <div className="container mt-4">
       <Card>
