@@ -24,7 +24,11 @@ const AddCustomer = () => {
     setValidationErrors({}); // Reset validation errors
 
     try {
-      await addCustomer(customer);
+      const customerWithCreationDate = {
+        ...customer,
+        lastInteractionDate: new Date().toISOString().split("T")[0], // Setze das aktuelle Datum
+      };
+      await addCustomer(customerWithCreationDate);
       setCustomer({
         firstName: "",
         lastName: "",
