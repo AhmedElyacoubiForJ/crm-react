@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { Table, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Spinner from "../common/Spinner";
 import SearchComponent from "../common/SearchComponent";
 import { getCustomers } from "../../api/customers";
@@ -45,7 +46,14 @@ const CustomerList = () => {
 
   return (
     <div>
-      <h2 className="mb-4">Kundenliste</h2>
+      <div className="d-flex align-items-center justify-content-between">
+        <h2 className="mb-4">Kundenliste</h2>
+        <Link to="/add-customer" className="p-2">
+          <Button variant="primary" style={{ marginBottom: "20px" }}>
+            Add neuer Kunde
+          </Button>
+        </Link>
+      </div>
 
       <SearchComponent
         search={search}
