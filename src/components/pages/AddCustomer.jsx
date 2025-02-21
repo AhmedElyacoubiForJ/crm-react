@@ -28,7 +28,7 @@ const AddCustomer = () => {
         ...customer,
         lastInteractionDate: new Date().toISOString().split("T")[0], // Setze das aktuelle Datum
       };
-      await addCustomer(customerWithCreationDate);
+      await addCustomer(customerWithCreationDate, 1);
       setCustomer({
         firstName: "",
         lastName: "",

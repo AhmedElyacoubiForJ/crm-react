@@ -1,15 +1,15 @@
-import axios from 'axios';
-import { handleApiError } from './utils/errorHandler';
+import axios from "axios";
+import { handleApiError } from "./utils/errorHandler";
 
-const BASE_URL = 'http://localhost:8080/api/customers';
+const BASE_URL = "http://localhost:8080/api/customers";
 
 // Funktion zum Abrufen der Kundendaten
 export const getCustomers = async (page, size, search) => {
   try {
     const response = await axios.get(BASE_URL, {
       params: {
-        page: page,     // Seite
-        size: size,     // Größe der Seite
+        page: page, // Seite
+        size: size, // Größe der Seite
         search: search, // Suchbegriff
       },
     });
@@ -23,9 +23,12 @@ export const getCustomers = async (page, size, search) => {
   }
 };
 
-export const addCustomer = async (customer) => {
+export const addCustomer = async (customer, employeeId) => {
   try {
-    const response = await axios.post(BASE_URL, customer);
+    const response = await axios.post(
+      `${BASE_URL}?employeeId=${employeeId}`,
+      customer
+    );
     if (response.data.statusCode === 201) {
       return response.data.data;
     } else {
