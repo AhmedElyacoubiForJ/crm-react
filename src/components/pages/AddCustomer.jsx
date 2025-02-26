@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Card, Form, Button } from "react-bootstrap";
 import { addCustomer } from "../../api/customers";
+import { getEmployees } from "../../api/employees"; // Importiere die getEmployees-Funktion
 
 const AddCustomer = () => {
   const navigate = useNavigate();
@@ -12,11 +13,35 @@ const AddCustomer = () => {
     phone: "",
     address: "",
   });
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [validationErrors, setValidationErrors] = useState({});
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const data = await getEmployees(0, 100, ""); // Abrufen der Mitarbeiterdaten ohne Paginierung und Suche
+        console.log("Fetched employees:", data.data.content); // Debug-Ausgabe hinzufügen
+        setEmployees(data.data.content || []); // Wenn die Daten in `content` enthalten sind
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+        setLoading(false);
+      }
+    };
+  
+    fetchEmployees();
+  }, []);
+  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCustomer({ ...customer, [name]: value });
+  };
+
+  const handleEmployeeChange = (event) => {
+    setSelectedEmployee(event.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -28,7 +53,7 @@ const AddCustomer = () => {
         ...customer,
         lastInteractionDate: new Date().toISOString().split("T")[0], // Setze das aktuelle Datum
       };
-      await addCustomer(customerWithCreationDate, 1);
+      await addCustomer(customerWithCreationDate, selectedEmployee); // Übergib die ausgewählte employeeId
       setCustomer({
         firstName: "",
         lastName: "",
@@ -51,6 +76,8 @@ const AddCustomer = () => {
       }
     }
   };
+
+  if (loading) return <p>Lade Mitarbeiterdaten...</p>;
 
   return (
     <div className="container mt-4">
@@ -128,6 +155,26 @@ const AddCustomer = () => {
               />
               <Form.Control.Feedback type="invalid">
                 {validationErrors.address}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="employee" className="mt-3">
+              <Form.Label>Mitarbeiter</Form.Label>
+              <Form.Control
+                as="select"
+                name="employee"
+                value={selectedEmployee}
+                onChange={handleEmployeeChange}
+                isInvalid={!!validationErrors.employee}
+              >
+                <option value="">Wählen Sie einen Mitarbeiter</option>
+                {employees && employees.map((employee) => (
+                  <option key={employee.id} value={employee.id}>
+                    {employee.firstName} {employee.lastName}
+                  </option>
+                ))}
+              </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                {validationErrors.employee}
               </Form.Control.Feedback>
             </Form.Group>
 
