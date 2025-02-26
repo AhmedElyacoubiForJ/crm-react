@@ -52,3 +52,17 @@ export const getCustomerById = async (id) => {
     handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
+
+// Funktion zum Aktualisieren eines Kunden
+export const updateCustomer = async (id, customer) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/${id}`, customer);
+    if (response.data.statusCode === 200) {
+      return response.data.data;
+    } else {
+      throw response;
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
+};

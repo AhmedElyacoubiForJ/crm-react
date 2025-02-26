@@ -5,6 +5,7 @@ import Footer from "./components/common/Footer";
 import CustomerList from "./components/pages/CustomerList";
 import AddCustomer from "./components/pages/AddCustomer";
 import ShowCustomer from "./components/pages/ShowCustomer";
+import EditCustomer from "./components/pages/EditCustomer";
 import Home from "./Home";
 import EmployeeList from "./components/pages/EmployeeList";
 import ShowEmployee from "./components/pages/ShowEmployee";
@@ -22,11 +23,15 @@ function App() {
           <Route path="/view-customers" element={<CustomerList />} />
           <Route path="/add-customer" element={<AddCustomer />} />
           <Route path="/view-customer/:id" element={<ShowCustomer />} />
+          <Route path="/edit-customer/:id" element={<EditCustomer />} />
           <Route path="/view-employees" element={<EmployeeList />} />
           <Route path="/view-employee/:id" element={<ShowEmployee />} />
           <Route path="/edit-employee/:id" element={<EditEmployee />} />
           <Route path="/add-employee" element={<AddEmployee />} />
-          <Route path="/reassign-and-delete/:employeeId" element={<ReassignAndDeleteEmployee />} />
+          <Route
+            path="/reassign-and-delete/:employeeId"
+            element={<ReassignAndDeleteEmployee />}
+          />
         </Routes>
         <Footer />
       </Router>
