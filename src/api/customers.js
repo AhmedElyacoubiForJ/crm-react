@@ -38,3 +38,17 @@ export const addCustomer = async (customer, employeeId) => {
     handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
+
+// Funktion zum Abrufen eines einzelnen Kunden
+export const getCustomerById = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/${id}`);
+    if (response.data.statusCode === 200) {
+      return response.data.data;
+    } else {
+      throw response; // Den ursprünglichen Fehler weitergeben
+    }
+  } catch (error) {
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
+  }
+};
