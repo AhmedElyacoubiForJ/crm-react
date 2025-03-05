@@ -21,3 +21,19 @@ export const getNotes = async (page, size, search) => {
     handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
   }
 };
+
+// Funktion zum Abrufen der Notizen für einen bestimmten Kunden
+export const getNotesByCustomerId = async (customerId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/for/${customerId}`);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw response;
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
+};
+
+

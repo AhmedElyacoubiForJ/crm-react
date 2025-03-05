@@ -23,6 +23,21 @@ export const getCustomers = async (page, size, search) => {
   }
 };
 
+// Funktion zum Abrufen der Kundendaten basierend auf der Mitarbeiter-ID
+export const getCustomersByEmployeeId = async (employeeId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/for/${employeeId}`); // Anpassung des Endpoints
+    if (response.status === 200) { // Überprüfen des HTTP-Statuscodes
+      return response.data;
+    } else {
+      throw new Error("Fehler beim Abrufen der Kundendaten");
+    }
+  } catch (error) {
+    handleApiError(error); // Fehlerbehandlung durch die Utility-Funktion
+  }
+};
+
+
 export const addCustomer = async (customer, employeeId) => {
   try {
     const response = await axios.post(

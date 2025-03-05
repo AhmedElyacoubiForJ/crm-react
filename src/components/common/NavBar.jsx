@@ -35,6 +35,11 @@ const NavBar = () => {
                 Customers
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={"/view-notes"}>
+                Notes
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

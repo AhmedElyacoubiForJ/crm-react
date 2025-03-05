@@ -1,17 +1,18 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
 import NavBar from "./components/common/NavBar";
 import Footer from "./components/common/Footer";
 import CustomerList from "./components/pages/CustomerList";
 import AddCustomer from "./components/pages/AddCustomer";
 import ShowCustomer from "./components/pages/ShowCustomer";
 import EditCustomer from "./components/pages/EditCustomer";
-import Home from "./Home";
 import EmployeeList from "./components/pages/EmployeeList";
 import ShowEmployee from "./components/pages/ShowEmployee";
 import EditEmployee from "./components/pages/EditEmployee";
 import AddEmployee from "./components/pages/AddEmployee";
 import ReassignAndDeleteEmployee from "./components/pages/ReassignAndDeleteEmployee";
+import NoteList from "./components/pages/NoteList";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             path="/reassign-and-delete/:employeeId"
             element={<ReassignAndDeleteEmployee />}
           />
+          <Route path="/view-notes" element={<NoteList />} />
         </Routes>
         <Footer />
       </Router>
