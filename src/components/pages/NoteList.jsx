@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getEmployees } from "../../api/employees";
 import { getCustomersByEmployeeId } from "../../api/customers";
 import { getNotesByCustomerId } from "../../api/notes";
-import { Card, Form, Button } from "react-bootstrap";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { Table, Button, OverlayTrigger, Tooltip, Card, Form } from "react-bootstrap";
 
 const NoteList = () => {
   const [employees, setEmployees] = useState([]);
@@ -83,18 +84,48 @@ const NoteList = () => {
               </Form.Group>
 
               <h2 className="mt-4">Notizen für ausgewählten Kunden</h2>
-              <ul>
-                {notes.map((note) => (
-                  <li key={note.id}>
-                    <h3>{note.title}</h3>
-                    <p>{note.content}</p>
-                    <Button variant="warning">Edit</Button>
-                    <Button variant="danger" className="ms-2">
-                      Delete
-                    </Button>
-                  </li>
-                ))}
-              </ul>
+              <Table bordered hover>
+                <thead className="table-dark">
+                  <tr>
+                    <th>Inhalt</th>
+                    <th>Datum</th>
+                    <th>Interaktionstyp</th>
+                    <th>Aktionen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {notes.map((note) => (
+                    <tr key={note.id}>
+                      <td>{note.content}</td>
+                      <td>{note.date}</td>
+                      <td>{note.interactionType}</td>
+                      <td>
+                        <OverlayTrigger
+                          overlay={<Tooltip id={`tooltip-edit-${note.id}`}>Edit</Tooltip>}
+                        >
+                          <Button variant="warning" className="me-2">
+                            <FaEdit />
+                          </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                          overlay={<Tooltip id={`tooltip-view-${note.id}`}>View</Tooltip>}
+                        >
+                          <Button variant="info" className="me-2">
+                            <FaEye />
+                          </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                          overlay={<Tooltip id={`tooltip-delete-${note.id}`}>Delete</Tooltip>}
+                        >
+                          <Button variant="danger">
+                            <FaTrash />
+                          </Button>
+                        </OverlayTrigger>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </>
           )}
         </Card.Body>
